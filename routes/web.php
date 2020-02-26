@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::any('xx',function(){
+Route::any('phpinfo',function(){
 	phpinfo();
 });
 
