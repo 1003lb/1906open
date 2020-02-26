@@ -7,6 +7,17 @@ use Illuminate\Http\Request;
 use App\Model\Login;
 
 	class LoginController extends Controller{
+    //注册
+    public function doreg(){
+    $post=request()->except('_token');
+    //dd($post);
+  $res=Login::insert($post);
+  //dd($res);
+  if($res){
+    echo "<script>alert('注册成功');location.href='/login'</script>";
+  }
+    }
+    //登录
 		public function dologin(){
    $post=request()->except('_token');//接收值
    //dd($post);
