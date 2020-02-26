@@ -18,6 +18,8 @@ Route::get('/', function () {
 Route::any('phpinfo',function(){
 	phpinfo();
 });
+Route::view('/reg','reg');//注册页面    
+
 Route::view('/login','login');//登录页面    路径写/dologin
 Route::post('/dologin','Admin\LoginController@dologin');//登录
 
