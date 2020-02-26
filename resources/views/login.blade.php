@@ -9,7 +9,7 @@
     
           
             <form action="{{url('/dologin')}}" method="post"  class="m-t">
-            @csrf
+           		 @csrf
                 用户名<input type="text" name="name"><br>
                 密码<input type="password" name="pwd"><br>
                 <input type="submit" value="登录">
