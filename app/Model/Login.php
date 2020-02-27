@@ -13,9 +13,9 @@ class Login extends Model
    //protected $guarded = [];	
    
    //生成AppID 规则 根据用户名+时间戳 +随机数 进行MD5
-   public static function Appid($name){
+   public static function Appid($username){
 
-    return 'ln'. substr(md5($name.time() . mt_rand(111111,999999)),5,16);
+    return 'ln'. substr(md5($username.time() . mt_rand(111111,999999)),5,16);
 
    }
    //生成APP secret

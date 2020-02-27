@@ -24,6 +24,8 @@ Route::any('/doreg','Admin\LoginController@doreg');//登录
 Route::view('/login','login');//登录页面    路径写/dologin
 Route::any('/dologin','Admin\LoginController@dologin');//登录
 
+Route::any('/center','Admin\LoginController@center');//个人中心
+
 Route::prefix('admin')->middleware('CheckLogin')->group(function(){
 Route::any('/index','Admin\AdminController@index');//后台首页
  
