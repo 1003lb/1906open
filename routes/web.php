@@ -26,6 +26,8 @@ Route::any('/dologin','Admin\LoginController@dologin');//登录
 
 Route::any('/center','Admin\LoginController@center');//个人中心
 
+Route::any('/getAccessToken','Admin\LoginController@getAccessToken');//接口
+
 Route::prefix('admin')->middleware('CheckLogin')->group(function(){
 Route::any('/index','Admin\AdminController@index');//后台首页
  
