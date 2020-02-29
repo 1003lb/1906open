@@ -147,7 +147,7 @@ use Illuminate\Support\Facades\Redis;
         'app_id'=>$app_id,
         'addtime'=>date('Y-m-d H:i:s'),
     ];
-
+    echo "key>>>>>>>:".$redis_h_key;echo "<hr>";
     Redis::hMset($redis_h_key,$app_info);
     Redis::expire($redis_h_key,7200);
 
@@ -156,7 +156,7 @@ use Illuminate\Support\Facades\Redis;
     'access_token'=>$access_token,
     'expire'=>7200,
     ];
-    return  $response;
+    //return  $response;
 
   
 
