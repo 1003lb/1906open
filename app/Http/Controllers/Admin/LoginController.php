@@ -115,9 +115,16 @@ use Illuminate\Support\Facades\Redis;
     //dump($app_info);
     //$arr=$app_info;
     //var_dump($app_info);
+       if($app_info){
    echo "欢迎来到个人中心:".$login_info['user_name'];echo "<br>";
     echo "APPID:".$app_info['app_id']."<hr>";
     echo "APPSECRET:".$app_info['app_secret']."<hr>";
+ }else{
+            echo "欢迎使用github登录,用户ID：".$id; echo "<br>";
+            echo "暂无内容";
+        }
+
+
 
   }
 //获取accesstoken 记录有效起

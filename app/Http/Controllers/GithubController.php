@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \GuzzleHttp\Client;
-use App\Model\GithubUserModel;
+use App\Model\GithubUserModel as Git;
 use App\Model\Login;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cookie; 
+use Illuminate\Support\Str; 
+use Illuminate\Support\Facades\Redis;
 class GithubController extends Controller
 {
     public function index(){
@@ -54,35 +58,40 @@ class GithubController extends Controller
 		$user=$response->getBody();
 		//$user_info=json_decode($response->getBody(),true);
 		print_r($user);
-		$u=GithubUserModel::where(['github_id' => $user['id']])->first();
-		if($u){
-			echo "欢迎回来";echo "<hr>";
-		}else{
-			//echo "欢迎新用户";echo "<hr>";
 
-			$u_data=[
-			'emali'=>$user['id'],
-			];
-			$uid=Login::insertGetId($u_data);
+		   $git_user=Git::where('github_id','=',$user['id'])->first();
+        if($git_user){
 
-			$github_user_info=[
-		'github_id' => $user['id'],
-		'location' =>$user['location'],
-		'emali'=>$user['emali']
-		];
-		$gid= GithubUserModel::insertGetId($github_user_info);
-		//写入用户主表
-			$u_info=[
+        }else{
+            $user_email=[
+                'l_email'=>$user['email']
+            ];
+            $reg=Login::insertGetId($user_email);     //把 gitub email 入到user  返回主键id
 
-			];
-		}
+            $git_user_info=[
+                'l_id'=>$reg,                      //user 主键id  入到gitub  表  
+                'github_id'=>$user['id'],
+                'location'=>$user['location'],
+                'email'=>$user['email']
+            ];
+            $gitub=Git::create($git_user_info);
+        }
 
-		if($gid>0){
 
-		}else{
+        //  登录成功 生成token 返回客户端     
+        $token=Str::random(16);
+        Cookie::queue('token',$token,60);  //存
+        //将token存redis
+        $redis_key='uesr:token:'.$token;  //redis的key 
+        $user_info=[                     //和取的数据对应
+            'l_id'=>$git_user['l_id'],
+            'time'=>date('Y-m-d H:i:s')
+        ];
+        Redis::hMset($redis_key,$user_info);   //哈希
+        Redis::expire($redis_key,60*60);      //一小时过期
 
-		}
-		header("location:/center");
-		echo "登录成功跳转至个人中心";
+        header('refresh:0;url=/center');
+        echo "登陆成功";
+        
     }
 }
